@@ -9,13 +9,13 @@ const qrscanner_REG_CONFIG_SHUTDOWN= 0x0100;  ///< shutdown config
 const qrscanner_REG_AMBIENT_TEMP= 0x05;       ///< ambient temperature
 const qrscanner_REG_RESOLUTION= 0x08;         ///< resolution
 const WAKEUP_WAITING_TIME = 260;
-const qrscanner_QRCODE_ADDR:0x21
-const qrscanner_QRCODE_TRIGGER_REG:0x0000
-const qrscanner_QRCODE_READY_REG:0x0010
-const qrscanner_QRCODE_LENGTH_REG:0x0020
-const qrscanner_QRCODE_TRIGGER_MODE_REG:0x0030
-const qrscanner_QRCODE_TRIGGER_KEY_REG:0x0040
-const qrscanner_QRCODE_DATA_REG:0x1000
+const qrscanner_QRCODE_ADDR=0x21
+const qrscanner_QRCODE_TRIGGER_REG=0x0000
+const qrscanner_QRCODE_READY_REG=0x0010
+const qrscanner_QRCODE_LENGTH_REG=0x0020
+const qrscanner_QRCODE_TRIGGER_MODE_REG=0x0030
+const qrscanner_QRCODE_TRIGGER_KEY_REG=0x0040
+const qrscanner_QRCODE_DATA_REG=0x1000
   JUMP_TO_BOOTLOADER_REG:0x00FD
   FIRMWARE_VERSION_REG:0x00FE
 
@@ -45,6 +45,14 @@ async _write(addr, reg, buffer) {
   await this._wire.i2cWrite(addr, data.length, data);
 }
 
+async _read(reg16,length){
+    let sendData = [];
+    sendData[0] = reg16 & 0x00ff;
+    sendData[1] = (reg16 >> 8) & 0x00ff;
+    await this.i2cSlave.writeBytes(sendData);
+    return await this.i2cSlave.readBytes(length);
+  }
+
  
 
 
@@ -64,21 +72,13 @@ void M5UnitQRCodeI2C::writeBytes(uint8_t addr, uint16_t reg, uint8_t *buffer, ui
 }
 
 
-async readBytes(addr, reg, length) {
-  // 16bitレジスタをリトルエンディアンで分割（C++コードと同じ）
-  const temp = Buffer.alloc(2);
-  temp[0] = reg & 0x00FF;
-  temp[1] = (reg >> 8) & 0x00FF;
-
-  // レジスタアドレスを送信（書き込み）
-  await this._wire.i2cWrite(addr, temp.length, temp);
-
-  // デバイスからlengthバイト読み取り
-  const buffer = Buffer.alloc(length);
-  await this._wire.i2cRead(addr, length, buffer);
-
-  return buffer;
-}
+async _read(reg16,length){
+    let sendData = [];
+    sendData[0] = reg16 & 0x00ff;
+    sendData[1] = (reg16 >> 8) & 0x00ff;
+    await this.i2cSlave.writeBytes(sendData);
+    return await this.i2cSlave.readBytes(length);
+  }
   
   
   void M5UnitQRCodeI2C::setDecodeTrigger(bool en) {
