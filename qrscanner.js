@@ -1,6 +1,6 @@
 // @ts-check
 // MCP9808 driver for CHIRIMEN
-// based from https://github.com/adafruit/Adafruit_MCP9808_Library/blob/master/Adafruit_MCP9808.cpp
+// based from https://github.com/m5stack/M5Unit-QRCode/blob/main/src/M5UnitQRCodeI2C.cpp
 // Programmed by Haruka Terai
 
 const qrscaner_I2CADDR_DEFAULT= 0x18;        ///< I2C address
@@ -10,7 +10,7 @@ const qrscaner_REG_AMBIENT_TEMP= 0x05;       ///< ambient temperature
 const qrscaner_REG_RESOLUTION= 0x08;         ///< resolution
 const WAKEUP_WAITING_TIME = 260;
 
-class QRScaner{
+class qrscanner{
     constructor(i2cPort,slaveAddress){
     this.i2cPort = i2cPort;
     this.i2cSlave = null;
@@ -51,4 +51,4 @@ class QRScaner{
 
 
 
-export default QRScaner;
+export default qrscanner;
