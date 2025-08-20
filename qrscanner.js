@@ -54,8 +54,7 @@ class QRScanner {
 
   async getDecodeLength() {
     const data = await this._read(qrscanner_QRCODE_LENGTH_REG, 2);
-    const length = (data[1] << 8) | data[0];
-    return length;
+    return (length = (data[1] << 8) | data[0]);
   }
 
   async getDecodeData(length) {
@@ -64,7 +63,24 @@ class QRScanner {
     return decoder.decode(Uint8Array.from(data));
   }
 
-  async scanData() {}
+  wait(ms) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
+  }
+
+  async scanData() {
+    for (;;) {
+      if ((await this.getDecodeReadyStatus()) == 1) {
+        const length = await this.getDecodeLength();
+        const data = this.getDecodeData(length);
+        return data;
+      }
+      await this.wait(500);
+    }
+  }
 }
 
 export default QRScanner;
