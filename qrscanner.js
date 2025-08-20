@@ -1,4 +1,3 @@
-// @ts-check
 // Driver for the QR Code Scanner Unit
 // based from https://github.com/m5stack/M5Unit-QRCode/blob/main/src/M5UnitQRCodeI2C.cpp
 // Programmed by Ryoma Aoki
@@ -72,13 +71,14 @@ class QRScanner {
   }
 
   async scanData() {
+    this.setTriggerMode;
     for (;;) {
       if ((await this.getDecodeReadyStatus()) == 1) {
         const length = await this.getDecodeLength();
         const data = this.getDecodeData(length);
         return data;
       }
-      await this.wait(500);
+      await this.wait(10);
     }
   }
 }
