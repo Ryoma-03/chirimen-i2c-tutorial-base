@@ -19,6 +19,10 @@ class QRScanner {
     this.slaveAddress = slaveAddress;
   }
 
+  async init() {
+    this.i2cSlave = await this.i2cPort.open(this.slaveAddress);
+  }
+
   async _write(reg16, data) {
     let sendData = [];
     sendData[0] = reg16 & 0x00ff;
