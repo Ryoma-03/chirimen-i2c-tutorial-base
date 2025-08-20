@@ -41,8 +41,8 @@ class QRScanner {
     return await this.i2cSlave.readBytes(length);
   }
 
-  async setTriggerMode() {
-    return await this._read(qrscanner_QRCODE_TRIGGER_MODE_REG, 1)[0];
+  async setTriggerMode(mode) {
+    await this._write(qrscanner_QRCODE_TRIGGER_MODE_REG, mode)[1];
   }
   async getTriggerMode() {
     return await this._read(qrscanner_QRCODE_TRIGGER_MODE_REG, 1)[0];
@@ -52,15 +52,13 @@ class QRScanner {
     return await this._read(qrscanner_QRCODE_READY_REG, 1)[0];
   }
   async getDecodeLength() {
-    return await this._read(qrscanner_QRCODE_LENGTH_REG, 1)[0];
+    return await this._read(qrscanner_QRCODE_LENGTH_REG, 2)[0];
   }
-  async getDecodeData() {
-    return await this._read(qrscanner_QRCODE_DATA_REG, 1)[0];
+  async getDecodeData(data, length) {
+    return await this._read(qrscanner_QRCODE_DATA_REG, length);
   }
 
-  async scanData() {
-    return await this._read(qrscanner_QRCODE_TRIGGER_KEY_REG, 1)[0];
-  }
+  async scanData() {}
 }
 
 export default QRScanner;
