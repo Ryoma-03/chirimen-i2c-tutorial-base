@@ -4,11 +4,6 @@
 // Programmed by Ryoma Aoki
 
 const qrscanner_I2CADDR_DEFAULT = 0x18; ///< I2C address
-const qrscanner_REG_CONFIG = 0x01; ///< MCP9808 config register
-const qrscanner_REG_CONFIG_SHUTDOWN = 0x0100; ///< shutdown config
-const qrscanner_REG_AMBIENT_TEMP = 0x05; ///< ambient temperature
-const qrscanner_REG_RESOLUTION = 0x08; ///< resolution
-const WAKEUP_WAITING_TIME = 260;
 const qrscanner_QRCODE_ADDR = 0x21;
 const qrscanner_QRCODE_TRIGGER_REG = 0x0000;
 const qrscanner_QRCODE_READY_REG = 0x0010;
