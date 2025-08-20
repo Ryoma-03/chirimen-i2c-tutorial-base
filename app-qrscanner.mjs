@@ -1,3 +1,4 @@
+import requestI2CAccess from "chirimen";
 import QRScanner from "./QRScanner";
 const i2cAccess = await requestI2CAccess();
 const i2cPort = i2cAccess.ports.get(1);

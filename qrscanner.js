@@ -3,11 +3,11 @@
 // based from https://github.com/m5stack/M5Unit-QRCode/blob/main/src/M5UnitQRCodeI2C.cpp
 // Programmed by Haruka Terai
 
-const qrscaner_I2CADDR_DEFAULT= 0x18;        ///< I2C address
-const qrscaner_REG_CONFIG= 0x01;             ///< MCP9808 config register
-const qrscaner_REG_CONFIG_SHUTDOWN= 0x0100;  ///< shutdown config
-const qrscaner_REG_AMBIENT_TEMP= 0x05;       ///< ambient temperature
-const qrscaner_REG_RESOLUTION= 0x08;         ///< resolution
+const qrscanner_I2CADDR_DEFAULT= 0x18;        ///< I2C address
+const qrscanner_REG_CONFIG= 0x01;             ///< MCP9808 config register
+const qrscanner_REG_CONFIG_SHUTDOWN= 0x0100;  ///< shutdown config
+const qrscanner_REG_AMBIENT_TEMP= 0x05;       ///< ambient temperature
+const qrscanner_REG_RESOLUTION= 0x08;         ///< resolution
 const WAKEUP_WAITING_TIME = 260;
 
 class QRScanner{
