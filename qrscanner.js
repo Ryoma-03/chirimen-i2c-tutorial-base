@@ -19,11 +19,6 @@ class QRScanner {
     this.slaveAddress = slaveAddress;
   }
 
-  // async init() {
-  //   this.i2cSlave = await this.i2cPort.open(this.slaveAddress);
-  //   await this.write16(qrscanner_REG_CONFIG, 0x0);
-  // }
-
   async _write(reg16, data) {
     let sendData = [];
     sendData[0] = reg16 & 0x00ff;
@@ -71,11 +66,10 @@ class QRScanner {
   }
 
   async scanData() {
-    this.setTriggerMode;
     for (;;) {
       if ((await this.getDecodeReadyStatus()) == 1) {
         const length = await this.getDecodeLength();
-        const data = this.getDecodeData(length);
+        const data = await this.getDecodeData(length);
         return data;
       }
       await this.wait(10);
