@@ -10,7 +10,7 @@ const qrscaner_REG_AMBIENT_TEMP= 0x05;       ///< ambient temperature
 const qrscaner_REG_RESOLUTION= 0x08;         ///< resolution
 const WAKEUP_WAITING_TIME = 260;
 
-class qrscanner{
+class QRScanner{
     constructor(i2cPort,slaveAddress){
     this.i2cPort = i2cPort;
     this.i2cSlave = null;
@@ -51,4 +51,4 @@ class qrscanner{
 
 
 
-export default qrscanner;
+export default QRScanner;
