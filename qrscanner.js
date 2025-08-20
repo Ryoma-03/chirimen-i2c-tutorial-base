@@ -26,18 +26,12 @@ class QRScanner {
     await this.write16(qrscanner_REG_CONFIG, 0x0);
   }
 
-  async _write(addr, reg, buffer) {
-    const regLow = reg & 0x00ff;
-    const regHigh = (reg >> 8) & 0x00ff;
-
-    const data = Buffer.alloc(2 + buffer.length);
-    data[0] = regLow;
-    data[1] = regHigh;
-    for (let i = 0; i < buffer.length; i++) {
-      data[2 + i] = buffer[i];
-    }
-
-    await this._wire.i2cWrite(addr, data.length, data);
+  async _write(reg16, data) {
+    let sendData = [];
+    sendData[0] = reg16 & 0x00ff;
+    sendData[1] = (reg16 >> 8) & 0x00ff;
+    const sendArray = [sendData[0], sendData[1]].concat(data);
+    await this.i2cSlave.writeBytes(sendArray);
   }
 
   async _read(reg16, length) {
