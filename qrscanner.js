@@ -55,7 +55,7 @@ class QRScanner {
   async getDecodeLength() {
     const data = await this._read(qrscanner_QRCODE_LENGTH_REG, 2);
     const length = (data[1] << 8) | data[0];
-    return length.toString();
+    return length;
   }
 
   async getDecodeData(length) {
