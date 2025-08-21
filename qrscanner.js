@@ -43,16 +43,18 @@ class QRScanner {
     await this._write(qrscanner_QRCODE_TRIGGER_MODE_REG, [mode]);
   }
   async getTriggerMode() {
-    return await this._read(qrscanner_QRCODE_TRIGGER_MODE_REG, 1)[0];
+    const modeArr = await this._read(qrscanner_QRCODE_TRIGGER_MODE_REG, 1);
+    return modeArr[0];
   }
 
   async getDecodeReadyStatus() {
-    return await this._read(qrscanner_QRCODE_READY_REG, 1)[0];
+    const statusArr = await this._read(qrscanner_QRCODE_READY_REG, 1);
+    return statusArr[0];
   }
 
   async getDecodeLength() {
     const data = await this._read(qrscanner_QRCODE_LENGTH_REG, 2);
-    return (length = (data[1] << 8) | data[0]);
+    return (data[1] << 8) | data[0];
   }
 
   async getDecodeData(length) {
@@ -71,10 +73,13 @@ class QRScanner {
 
   async scanData() {
     for (;;) {
-      if ((await this.getDecodeReadyStatus()) == 1) {
+      let status = await this.getDecodeReadyStatus();
+      if (status == 1) {
         const length = await this.getDecodeLength();
         const data = await this.getDecodeData(length);
         return data;
+      } else if (status == 2) {
+        throw new Error("ReadyStatus == 2 デバイスを再起動してください。");
       }
       await this.wait(10);
     }
