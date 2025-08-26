@@ -86,7 +86,7 @@ class AlarmLightSensor {
       let result = await this.i2cSlave.read8(VCNL4010_COMMAND);
       // Serial.print("Ready = 0x"); Serial.println(result, HEX);
       if (result & VCNL4010_AMBIENTREADY) {
-        return await this.i2cSlaveS.read16(VCNL4010_AMBIENTREADY);
+        return await this.i2cSlave.read16(VCNL4010_AMBIENTREADY);
       }
       await this.wait(1000);
     }
