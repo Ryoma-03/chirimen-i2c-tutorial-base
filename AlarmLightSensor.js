@@ -35,20 +35,20 @@ class AlarmLightSensor {
     this.i2cSlave = await this.i2cPort.open(this.slaveAddress);
     await this.setLEDcurrent(20);
     await this.setFrequency(VCNL4010_16_625);
-    await this.i2cPort.write8(VCNL4010_INTCONTROL, 0x08);
+    await this.i2cSlave.write8(VCNL4010_INTCONTROL, 0x08);
   }
 
   async setLEDcurrent(current_10mA) {
     if (current_10mA > 20) current_10mA = 20;
-    await this.i2cPort.write8(VCNL4010_IRLED, current_10mA);
+    await this.i2cSlave.write8(VCNL4010_IRLED, current_10mA);
   }
 
   async getLEDcurrent() {
-    return await this.i2cPort.read8(VCNL4010_IRLED);
+    return await this.i2cSlave.read8(VCNL4010_IRLED);
   }
 
   async setFrequency(freq) {
-    await this.i2cPort.write8(VCNL4010_PROXRATE, freq);
+    await this.i2cSlave.write8(VCNL4010_PROXRATE, freq);
   }
 
   wait(ms) {
@@ -60,33 +60,33 @@ class AlarmLightSensor {
   }
 
   async readProximity() {
-    let i = await this.i2cPort.read8(VCNL4010_INTSTAT);
+    let i = await this.i2cSlave.read8(VCNL4010_INTSTAT);
     i &= ~0x80;
-    await this.i2cPort.write8(VCNL4010_INTSTAT, i);
+    await this.i2cSlave.write8(VCNL4010_INTSTAT, i);
 
-    await this.i2cPort.write8(VCNL4010_COMMAND, VCNL4010_MEASUREPROXIMITY);
+    await this.i2cSlave.write8(VCNL4010_COMMAND, VCNL4010_MEASUREPROXIMITY);
     while (1) {
       // Serial.println(read8(VCNL4010_INTSTAT), HEX);
-      let result = await this.i2cPort.read8(VCNL4010_COMMAND);
+      let result = await this.i2cSlave.read8(VCNL4010_COMMAND);
       // Serial.print("Ready = 0x"); Serial.println(result, HEX);
       if (result & VCNL4010_PROXIMITYREADY) {
-        return await this.i2cPort.read16(VCNL4010_PROXIMITYDATA);
+        return await this.i2cSlave.read16(VCNL4010_PROXIMITYDATA);
       }
       await this.wait(1000);
     }
   }
   async readAmbient() {
-    let i = await this.i2cPort.read8(VCNL4010_INTSTAT);
+    let i = await this.i2cSlave.read8(VCNL4010_INTSTAT);
     i &= ~0x40;
-    await this.i2cPort.write8(VCNL4010_INTSTAT, i);
+    await this.i2cSlave.write8(VCNL4010_INTSTAT, i);
 
-    await this.i2cPort.write8(VCNL4010_COMMAND, VCNL4010_MEASUREPROXIMITY);
+    await this.i2cSlave.write8(VCNL4010_COMMAND, VCNL4010_MEASUREPROXIMITY);
     while (1) {
       // Serial.println(read8(VCNL4010_INTSTAT), HEX);
-      let result = await this.i2cPort.read8(VCNL4010_COMMAND);
+      let result = await this.i2cSlave.read8(VCNL4010_COMMAND);
       // Serial.print("Ready = 0x"); Serial.println(result, HEX);
       if (result & VCNL4010_AMBIENTREADY) {
-        return await this.i2cPort.read16(VCNL4010_AMBIENTREADY);
+        return await this.i2cSlaveS.read16(VCNL4010_AMBIENTREADY);
       }
       await this.wait(1000);
     }
