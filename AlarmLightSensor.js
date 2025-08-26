@@ -34,7 +34,7 @@ class AlarmLightSensor {
   async init() {
     this.i2cSlave = await this.i2cPort.open(this.slaveAddress);
     await this.setLEDcurrent(20);
-    await this.setFrequency(this.freq.VCNL4010_16_625);
+    await this.setFrequency(freqConst.VCNL4010_16_625);
     await this.i2cSlave.write8(VCNL4010_INTCONTROL, 0x08);
   }
 
