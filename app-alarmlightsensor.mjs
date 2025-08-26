@@ -1,5 +1,5 @@
 import { requestI2CAccess } from "chirimen";
-import AlarmLightSensorightsensor from "@chirimen/AlarmLightSensor.js";
+import AlarmLightSensor from "./AlarmLightSensor.js";
 import AlarmLightSensor from "./AlarmLightSensor";
 const i2cAccess = await requestI2CAccess();
 const i2cPort = i2cAccess.ports.get(1);
